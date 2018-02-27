@@ -15,18 +15,20 @@ import javax.inject.Singleton
 @Module
 class NetworkModule{
 
-    @Singleton
-    @Provides
-    fun provideHttpClient(interceptor: Interceptor, cache:Cache){
-         val builder = OkHttpClient().newBuilder().apply {
-            addInterceptor(interceptor)
-            cache(cache)
-            build()
-        }
-    }
 
     @Singleton
     @Provides
+    fun provideHttpClient( cache:Cache):OkHttpClient{
+         val builder = OkHttpClient().newBuilder().apply {
+            addInterceptor(AuthInterceptor(BuildConfig.PUBLIC_API_KEY,BuildConfig.PRIVATE_API_KEY))
+            //cache(cache)
+        }
+        return builder.build()
+    }
+
+   /* @Singleton
+    @Provides
+    @JvmSuppressWildcards
     internal fun provideInterceptor() = AuthInterceptor(BuildConfig.PUBLIC_API_KEY,BuildConfig.PRIVATE_API_KEY)
 
 
@@ -39,6 +41,6 @@ class NetworkModule{
     fun provideCacheFile(context: Context) = context.filesDir
 
     @Provides
-    fun provideMoshiClient()= MoshiConverterFactory.create()
+    fun provideMoshiClient()= MoshiConverterFactory.create()*/
 
 }

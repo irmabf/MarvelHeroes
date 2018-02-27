@@ -2,21 +2,39 @@ package com.example.tomislav.marvelheros.ViewModel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.example.tomislav.marvelheros.di.ViewModelSubComponent
 import javax.inject.Inject
+import javax.inject.Provider
+import javax.inject.Singleton
 
-class HeroesViewModelFactory():ViewModelProvider.Factory{
 
-    @Inject
-    constructor(viewModelSubComponent: ViewModelSubComponent) : this() {
-        //creators = ArrayMap<Class, Callable<out ViewModel>>()
-        // View models cannot be injected directly because they won't be bound to the owner's view model scope.
-        //creators.put(ProjectViewModel::class.java, { viewModelSubComponent.projectViewModel() })
-        //creators.put(ProjectListViewModel::class.java, { viewModelSubComponent.projectListViewModel() })
+@Suppress("UNCHECKED_CAST")
+@Singleton
+class HeroesViewModelFactory @Inject
+
+constructor(
+        private val creators: Map<Class<out ViewModel>,
+                @JvmSuppressWildcards Provider<ViewModel>>
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        var creator: Provider<out ViewModel>? = creators[modelClass]
+        if (creator == null) {
+            for ((key, value) in creators) {
+                if (modelClass.isAssignableFrom(key)) {
+                    creator = value
+                    break
+                }
+            }
+        }
+        if (creator == null) {
+            throw IllegalArgumentException("unknown model class " + modelClass)
+        }
+        try {
+            return creator.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+
     }
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }
+

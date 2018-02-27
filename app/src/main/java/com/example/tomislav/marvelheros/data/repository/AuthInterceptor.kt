@@ -1,5 +1,6 @@
 package com.example.tomislav.marvelheros.data.repository
 
+import android.util.Log
 import java.io.IOException
 
 import okhttp3.HttpUrl
@@ -28,6 +29,7 @@ internal class AuthInterceptor(private val publicKey: String, private val privat
                 .addQueryParameter(HASH_KEY, hash)
                 .build()
         request = request.newBuilder().url(url).build()
+        Log.d("Marvel URL string: ", request.url().encodedPath())
         return chain.proceed(request)
     }
 
