@@ -37,7 +37,8 @@ class HeroViewHolder(view: View, private val glide: RequestManager)
             thumbnail.visibility = View.VISIBLE
             val options = RequestOptions()
             options.centerCrop()
-            glide.load(hero.thumbnail.path).apply(options)
+
+            glide.load(hero.thumbnail.getImageUrl()).apply(options)
                     .into(thumbnail)
         } else {
             thumbnail.visibility = View.GONE
@@ -45,6 +46,8 @@ class HeroViewHolder(view: View, private val glide: RequestManager)
         }
 
     }
+
+
 
     companion object {
         fun create(parent: ViewGroup, glide: RequestManager): HeroViewHolder {

@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -30,21 +29,26 @@ class HeroesListFragment(): DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                      savedInstanceState: Bundle?): View? {
-        initAdapter()
-        initSwipeToRefresh()
+
 
         savedInstanceState?.let {
             heroes_list.layoutManager.onRestoreInstanceState(it.getParcelable("KeyForLayoutManagerState"))
         }
+
+
         return inflater.inflate( R.layout.fragment_heroes_list, container, false)
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model = ViewModelProviders.of(this,viewModelFactory).get(HeroesViewModel::class.java)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        model = ViewModelProviders.of(this,viewModelFactory).get(HeroesViewModel::class.java)
-
+        initAdapter()
+        initSwipeToRefresh()
     }
 
     private fun initAdapter() {
@@ -52,8 +56,8 @@ class HeroesListFragment(): DaggerFragment() {
         val adapter = HeroesAdapter(glide, {
             model.retry()
         },activity as MainActivity)
-        heroes_list.layoutManager = LinearLayoutManager(activity)
-        heroes_list.adapter = adapter
+        heroes_list?.layoutManager = LinearLayoutManager(activity)
+        heroes_list?.adapter = adapter
         model.heroes.observe(this, Observer<PagedList<Models.Hero>> {
             adapter.setList(it)
         })

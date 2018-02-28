@@ -10,15 +10,10 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
-import android.app.Application
-import android.content.Context
 import com.example.tomislav.marvelheros.BuildConfig
 import com.example.tomislav.marvelheros.data.repository.AuthInterceptor
 import com.example.tomislav.marvelheros.data.repository.HeroesByPageKeyRepository
-import dagger.Binds
-import okhttp3.Cache
 import okhttp3.Interceptor
-import java.io.File
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 

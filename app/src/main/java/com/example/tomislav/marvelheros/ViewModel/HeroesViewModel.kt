@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 
 class HeroesViewModel @Inject constructor(private val repository: HeroesByPageKeyRepository): ViewModel(){
-    private val repoResult = repository.heroesList(10)
+    private val repoResult = repository.heroesList(20)
 
     val heroes = repoResult.pagedList
     val networkState = repoResult.networkState

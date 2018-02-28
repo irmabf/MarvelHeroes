@@ -1,18 +1,16 @@
 package com.example.tomislav.marvelheros.View.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.example.tomislav.marvelheros.R
 import com.example.tomislav.marvelheros.data.model.Models
-import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
+
+
 
 class MainActivity : DaggerAppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //AndroidInjection.inject(this)
@@ -30,7 +28,11 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     fun MainActivity.show(hero: Models.Hero) {
-        replaceFragment(HeroesFragment(),R.id.fragment_container)
+        val bundle=Bundle()
+        bundle.putParcelable("hero",hero)
+        var fragment = HeroesFragment()
+        fragment.arguments = bundle
+        replaceFragment(fragment,R.id.fragment_container)
     }
 
     fun DaggerAppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
@@ -40,6 +42,20 @@ class MainActivity : DaggerAppCompatActivity() {
 
     fun DaggerAppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
         supportFragmentManager.inTransaction{replace(frameId, fragment)}
+
     }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
+
 }
+
