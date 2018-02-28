@@ -10,12 +10,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.example.tomislav.marvelheros.R
 import com.example.tomislav.marvelheros.data.model.Models
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.centerCrop
+import com.bumptech.glide.request.RequestOptions
+
+
 
 class HeroViewHolder(view: View, private val glide: RequestManager)
     : RecyclerView.ViewHolder(view) {
 
-    private val title: TextView = view.findViewById(R.id.title)
-    private val thumbnail : ImageView = view.findViewById(R.id.thumbnail)
+    private val title: TextView = view.findViewById(R.id.hero_name)
+    private val thumbnail : ImageView = view.findViewById(R.id.hero_image)
     private var hero : Models.Hero? = null
     /*init {
         view.setOnClickListener {
@@ -31,12 +35,13 @@ class HeroViewHolder(view: View, private val glide: RequestManager)
         title.text = hero?.name ?: "loading"
         if (hero?.thumbnail?.path?.startsWith("http") == true) {
             thumbnail.visibility = View.VISIBLE
-            glide.load(hero.thumbnail.path).centerCrop()
-                    .placeholder(R.drawable.ic_insert_photo_black_48dp)
+            val options = RequestOptions()
+            options.centerCrop()
+            glide.load(hero.thumbnail.path).apply(options)
                     .into(thumbnail)
         } else {
             thumbnail.visibility = View.GONE
-            Glide.clear(thumbnail)
+            glide.clear(thumbnail)
         }
 
     }
@@ -44,7 +49,7 @@ class HeroViewHolder(view: View, private val glide: RequestManager)
     companion object {
         fun create(parent: ViewGroup, glide: RequestManager): HeroViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.reddit_post_item, parent, false)
+                    .inflate(R.layout.hero_list_item, parent, false)
             return HeroViewHolder(view, glide)
         }
     }

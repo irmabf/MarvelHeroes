@@ -16,11 +16,11 @@ import com.example.tomislav.marvelheros.View.adapter.HeroesAdapter
 import com.example.tomislav.marvelheros.ViewModel.HeroesViewModel
 import com.example.tomislav.marvelheros.data.model.Models
 import com.example.tomislav.marvelheros.data.model.NetworkState
-import com.example.tomislav.marvelheros.di.Injectable
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_heroes_list.*
 import javax.inject.Inject
 
-class HeroesListFragment(): Fragment(), Injectable{
+class HeroesListFragment(): DaggerFragment() {
      lateinit var model: HeroesViewModel
 
     @Inject

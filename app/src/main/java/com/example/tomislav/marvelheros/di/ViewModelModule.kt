@@ -17,7 +17,6 @@ abstract class ViewModelModule {
     abstract fun bindHeroesViewModel( mainViewModel: HeroesViewModel ): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory( factory: HeroesViewModelFactory):
-            ViewModelProvider.Factory
+    abstract fun bindViewModelFactory( factory: HeroesViewModelFactory): ViewModelProvider.Factory
 
 }

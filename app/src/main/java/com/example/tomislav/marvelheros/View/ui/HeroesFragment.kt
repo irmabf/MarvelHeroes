@@ -1,7 +1,7 @@
 package com.example.tomislav.marvelheros.View.ui
 
-import android.support.v4.app.Fragment
+import dagger.android.support.DaggerFragment
 
-class HeroesFragment(): Fragment() {
+class HeroesFragment(): DaggerFragment() {
 
 }

@@ -8,7 +8,7 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-internal class AuthInterceptor(private val publicKey: String, private val privateKey: String) : Interceptor {
+class AuthInterceptor(private val publicKey: String, private val privateKey: String) : Interceptor {
     private val authHashGenerator = AuthHashGenerator()
 
     @Throws(IOException::class)

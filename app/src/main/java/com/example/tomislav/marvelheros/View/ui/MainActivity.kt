@@ -7,21 +7,12 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.example.tomislav.marvelheros.R
 import com.example.tomislav.marvelheros.data.model.Models
-import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(),HasSupportFragmentInjector {
+class MainActivity : DaggerAppCompatActivity() {
 
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
-    @Inject
-    lateinit var heroesFragment: HeroesFragment
-    @Inject
-    lateinit var heroesListFragment: HeroesListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //AndroidInjection.inject(this)
@@ -30,7 +21,7 @@ class MainActivity : AppCompatActivity(),HasSupportFragmentInjector {
 
         // Add project list fragment if this is first creation
         if (savedInstanceState == null) {
-            addFragment(heroesListFragment,R.id.fragment_container)
+            addFragment(HeroesListFragment(),R.id.fragment_container)
         }
     }
 
@@ -39,19 +30,15 @@ class MainActivity : AppCompatActivity(),HasSupportFragmentInjector {
     }
 
     fun MainActivity.show(hero: Models.Hero) {
-        replaceFragment(heroesFragment,R.id.fragment_container)
+        replaceFragment(HeroesFragment(),R.id.fragment_container)
     }
 
-    override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>? {
-        return dispatchingAndroidInjector
-    }
-
-    fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
+    fun DaggerAppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
         supportFragmentManager.inTransaction { add(frameId, fragment) }
     }
 
 
-    fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
+    fun DaggerAppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
         supportFragmentManager.inTransaction{replace(frameId, fragment)}
     }
 

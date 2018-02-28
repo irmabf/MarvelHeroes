@@ -13,10 +13,10 @@ class HeroesViewModel @Inject constructor(private val repository: HeroesByPageKe
     val refreshState = repoResult.refreshState
 
     fun refresh() {
-        repoResult.refresh?.invoke()
+        repoResult.refresh.invoke()
     }
 
     fun retry() {
-        repoResult?.refresh?.invoke()
+        repoResult.refresh.invoke()
     }
 }

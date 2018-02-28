@@ -8,9 +8,9 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuildersModule {
 
-    //@ContributesAndroidInjector
-    //abstract fun contributeHeroesFragment(): HeroesFragment
-
     @ContributesAndroidInjector
     abstract fun contributeHeroesListFragment(): HeroesListFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideHeroFragmentFactory(): HeroesFragment
 }
