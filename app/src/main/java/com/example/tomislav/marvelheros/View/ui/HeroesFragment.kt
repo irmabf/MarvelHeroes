@@ -29,14 +29,12 @@ class HeroesFragment() : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         val bundle:Bundle? = this.arguments
         lateinit var hero: Models.Hero
-        val x:Int =1234
 
         if (bundle != null) {
             hero = bundle.getParcelable("hero")
         }
         hero_item_name.text=hero.name;
         Glide.with(this).load(hero.thumbnail.getImageUrl()).into(hero_item_image)
-        var x1:String = "Tito"
         floating_button.setOnClickListener({
             val intent = Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(hero.urls.get(1).url))
