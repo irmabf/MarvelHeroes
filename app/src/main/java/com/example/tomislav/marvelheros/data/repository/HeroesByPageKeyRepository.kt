@@ -17,7 +17,7 @@ class HeroesByPageKeyRepository(private val marvelService: MarvelService,
     fun heroesList(pageSize: Int): Listing<Models.Hero> {
         val sourceFactory = HeroesDataSourceFactory(marvelService, networkExecutor)
 
-        val livePagedList = LivePagedListBuilder(sourceFactory, PagedList.Config.Builder().setPageSize(pageSize).setEnablePlaceholders(false).setPrefetchDistance(40).build())
+        val livePagedList = LivePagedListBuilder(sourceFactory, PagedList.Config.Builder().setPageSize(pageSize).setEnablePlaceholders(false).setPrefetchDistance(20).build())
                 // provide custom executor for network requests, otherwise it will default to
                 // Arch Components' IO pool which is also used for disk access
                 .setBackgroundThreadExecutor(networkExecutor)

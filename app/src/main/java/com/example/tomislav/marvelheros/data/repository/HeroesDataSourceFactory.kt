@@ -9,6 +9,7 @@ class HeroesDataSourceFactory(
         private val marvelService: MarvelService,
         private val retryExecutor: Executor) : DataSource.Factory<String, Models.Hero> {
     val sourceLiveData = MutableLiveData<HeroesDataSource>()
+
     override fun create(): DataSource<String, Models.Hero> {
         val source = HeroesDataSource(marvelService, retryExecutor)
         sourceLiveData.postValue(source)

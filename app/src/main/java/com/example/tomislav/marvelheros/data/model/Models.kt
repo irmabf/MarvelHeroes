@@ -1,11 +1,8 @@
 package com.example.tomislav.marvelheros.data.model
 
-import android.arch.lifecycle.LiveData
-import android.arch.paging.PagedList
-import android.os.Parcel
+
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 
 object Models {
     data class MarvelResponse(val data: Results)

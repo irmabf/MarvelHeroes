@@ -3,19 +3,24 @@ package com.example.tomislav.marvelheros.View.adapter
 import android.arch.paging.PagedListAdapter
 import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
 import com.example.tomislav.marvelheros.R
 import com.example.tomislav.marvelheros.View.ui.MainActivity
 import com.example.tomislav.marvelheros.data.model.Models
 import com.example.tomislav.marvelheros.data.model.NetworkState
+import android.view.animation.AnimationUtils
+
+
 
 
 class HeroesAdapter(private val glide: RequestManager,
                     private val retryCallback: () -> Unit,
                     private val activity: MainActivity): PagedListAdapter<Models.Hero, RecyclerView.ViewHolder>(HERO_COMPARATOR){
 
-
+    private var lastPosition:Int = -1
     private var networkState: NetworkState? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -28,11 +33,24 @@ class HeroesAdapter(private val glide: RequestManager,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.hero_list_item -> (holder as HeroViewHolder).bind(getItem(position))
-            R.layout.network_state_item -> (holder as NetworkStateItemViewHolder).bindTo(
-                    networkState)
+            R.layout.network_state_item -> (holder as NetworkStateItemViewHolder).bindTo(networkState)
         }
-        val hero = this.currentList?.get(position)
-        holder.itemView.setOnClickListener({activity.apply { hero?.let { activity.show(it) } }})
+        Log.d("LIST SIZE: ",this.currentList?.size.toString())
+        Log.d("POSITION: ", position.toString())
+        if(getItemViewType(position) != R.layout.network_state_item){
+            val hero = this.currentList?.get(position)
+            holder.itemView.setOnClickListener({activity.apply { hero?.let { activity.show(it) } }})
+            setAnimation(holder.itemView, position)
+        }
+    }
+
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(activity, android.R.anim.fade_in)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED

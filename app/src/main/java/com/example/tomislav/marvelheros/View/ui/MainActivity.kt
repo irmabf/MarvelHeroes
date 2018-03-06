@@ -12,6 +12,8 @@ import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {
 
+    private val BACK_STACK_ROOT_TAG = "root_fragment"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -36,16 +38,19 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     fun DaggerAppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
-        supportFragmentManager.inTransaction { add(frameId, fragment) }
+        supportFragmentManager.apply {
+            popBackStack(BACK_STACK_ROOT_TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            inTransaction { add(frameId, fragment).addToBackStack(BACK_STACK_ROOT_TAG) }
+        }
     }
 
 
     fun DaggerAppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
-        supportFragmentManager.inTransaction{replace(frameId, fragment)}
+        supportFragmentManager.inTransaction{replace(frameId, fragment).addToBackStack(null)}
 
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
 
         if (count == 0) {
@@ -54,7 +59,7 @@ class MainActivity : DaggerAppCompatActivity() {
         } else {
             supportFragmentManager.popBackStack()
         }
-    }
+    }*/
 
 
 }

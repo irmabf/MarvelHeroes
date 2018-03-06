@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.fragment_heroes.*
 class HeroesFragment() : DaggerFragment() {
 
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
          super.onCreateView(inflater, container, savedInstanceState)
 
@@ -30,15 +29,15 @@ class HeroesFragment() : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         val bundle:Bundle? = this.arguments
         lateinit var hero: Models.Hero
+        val x:Int =1234
 
         if (bundle != null) {
             hero = bundle.getParcelable("hero")
         }
         hero_item_name.text=hero.name;
         Glide.with(this).load(hero.thumbnail.getImageUrl()).into(hero_item_image)
-
-        val fab = fab
-        fab.setOnClickListener({
+        var x1:String = "Tito"
+        floating_button.setOnClickListener({
             val intent = Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(hero.urls.get(1).url))
             startActivity(intent);
@@ -48,4 +47,5 @@ class HeroesFragment() : DaggerFragment() {
 
 
     }
+
 

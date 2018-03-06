@@ -31,9 +31,7 @@ class HeroesListFragment(): DaggerFragment() {
                      savedInstanceState: Bundle?): View? {
 
 
-        savedInstanceState?.let {
-            heroes_list.layoutManager.onRestoreInstanceState(it.getParcelable("KeyForLayoutManagerState"))
-        }
+
 
 
         return inflater.inflate( R.layout.fragment_heroes_list, container, false)
@@ -75,10 +73,5 @@ class HeroesListFragment(): DaggerFragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("KeyForLayoutManagerState",heroes_list.layoutManager.onSaveInstanceState())
-
-    }
 
 }
